@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement; // Para cargar escenas
 
 public class Enemy : MonoBehaviour
 {
@@ -45,13 +46,15 @@ public class Enemy : MonoBehaviour
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
         rb.velocity = direction * projectileSpeed;
 
-
         Destroy(projectile, 4f);
     }
 
-    // Método para destruir al enemigo cuando su vida llega a 0
+    // Método para destruir el enemigo cuando su vida llega a 0
     void Die()
     {
+        GameManager.SetEnemyDefeated(true);
+        GameManager.Instance.EndGame(); // Detener el temporizador y mostrar el resultado
+        Invoke("LoadMenu", 5f); // Esperar 5 segundos y cargar el menú
         Destroy(gameObject); // Destruir el enemigo
     }
 
@@ -60,8 +63,13 @@ public class Enemy : MonoBehaviour
     {
         if (collision.CompareTag("Projectile")) // Tag del proyectil del jugador
         {
-            TakeDamage(1); // Reducir la vida en 1 o el valor que desees
-            
+            TakeDamage(1); // Reducir la vida en 1
+            Destroy(collision.gameObject); // Destruir el proyectil del jugador
         }
+    }
+
+    void LoadMenu()
+    {
+        SceneManager.LoadScene("Menu"); // Cambia a la escena "Menu"
     }
 }
