@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     {
         isGameActive = true; // Activa el juego
         elapsedTime = 0f; // Reinicia el temporizador
-        SceneManager.LoadScene("SampleScene"); // Cambia a la escena "SampleScene"
+        SceneManager.LoadScene("Level1"); // Cambia a la escena "SampleScene"
     }
     public void QuitGame()
     {
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
         }
         else if (enemyDefeated)
         {
-            resultText.text = "Victoria\nTiempo: " + FormatTime(elapsedTime);
+            resultText.text = "Victoria\nTiempo: " + elapsedTime.ToString("F1");
         }
         else
         {

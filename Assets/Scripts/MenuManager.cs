@@ -8,7 +8,10 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene"); // Cambia a la escena "SampleScene"
     }
-
+    public void LevelManagerScene()
+    {
+        SceneManager.LoadScene("LevelManager"); 
+    }
     public void QuitGame()
     {
         Application.Quit();
