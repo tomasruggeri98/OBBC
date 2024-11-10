@@ -10,9 +10,19 @@ public class GameManager : MonoBehaviour
 
     private static bool playerDefeated = false; // Para determinar si el jugador fue derrotado
     private static bool enemyDefeated = false; // Para determinar si el enemigo fue derrotado
-    private float elapsedTime = 0f; // Tiempo transcurrido
-    private bool isGameActive = false; // Para controlar el estado del juego
+    [SerializeField] float elapsedTime = 0f; // Tiempo transcurrido
+    [SerializeField] bool isGameActive = false; // Para controlar el estado del juego
+    [SerializeField] float bestTime;
+    [SerializeField] bool firstPlay;
 
+    private void Start()
+    {
+        Debug.Log("ffff");
+        firstPlay = true;
+        elapsedTime = 0f; // Reinicia el temporizador
+        isGameActive = true; // Activa el juego
+        //SceneManager.LoadScene("Level1"); // Cambia a la escena "SampleScene"
+    }
     public static GameManager Instance // Propiedad para acceder a la instancia
     {
         get
@@ -43,22 +53,24 @@ public class GameManager : MonoBehaviour
         if (isGameActive)
         {
             elapsedTime += Time.deltaTime; // Aumenta el tiempo transcurrido
+            Debug.Log(elapsedTime);
             UpdateTimerText(); // Actualiza el texto del temporizador
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            SceneManager.LoadScene("Level1");
+            elapsedTime = 0f; // Reinicia el temporizador
+            isGameActive = true; // Activa el juego
         }
     }
 
-    private void Start()
-    {
-        isGameActive = true; // Activa el juego
-        elapsedTime = 0f; // Reinicia el temporizador
-        SceneManager.LoadScene("Level1"); // Cambia a la escena "SampleScene"
-    }
+    
     public void QuitGame()
     {
         Application.Quit();
 
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false; // Si estás en el editor, detener la reproducción
+        UnityEditor.EditorApplication.isPlaying = false; // Si estás en el editor, detener la reproducción[SerializeField]
 #endif
     }
 
@@ -66,7 +78,8 @@ public class GameManager : MonoBehaviour
     {
         isGameActive = false; // Detiene el contador al final del juego
         ShowResult(); // Muestra el resultado al final
-        SceneManager.LoadScene("Menu"); // Cambia a la escena "Menu"
+        //SceneManager.LoadScene("Menu"); // Cambia a la escena "Menu"
+       
     }
 
     public static void SetPlayerDefeated(bool defeated)
@@ -93,17 +106,33 @@ public class GameManager : MonoBehaviour
 
     private void ShowResult()
     {
+        if (elapsedTime < bestTime && firstPlay == false)
+        {
+            bestTime = elapsedTime;
+        }
+
+        if (firstPlay)
+        {
+            bestTime = elapsedTime;
+            firstPlay = false;
+        }
+       
+
         if (playerDefeated)
         {
             resultText.text = "Derrota";
         }
         else if (enemyDefeated)
         {
-            resultText.text = "Victoria\nTiempo: " + elapsedTime.ToString("F1");
-        }
-        else
-        {
-            resultText.text = ""; // Si no hay resultados, mostrar vacío
+            if (elapsedTime > bestTime)
+            {
+                resultText.text = "Victoria\nTiempo: " + elapsedTime.ToString("F1");
+            }
+            else
+            {
+                resultText.text = "Victoria\nTiempo: " + elapsedTime.ToString("F1") + "\nNuevo Record: "+ bestTime.ToString("F1");
+                Debug.Log("YY");
+            }
         }
     }
 }

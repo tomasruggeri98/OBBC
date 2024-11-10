@@ -6,7 +6,7 @@ public class MenuManager : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("SampleScene"); // Cambia a la escena "SampleScene"
+        SceneManager.LoadScene("Level1"); // Cambia a la escena "SampleScene"
     }
     public void LevelManagerScene()
     {
