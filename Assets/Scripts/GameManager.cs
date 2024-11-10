@@ -47,13 +47,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    private void Start()
     {
         isGameActive = true; // Activa el juego
         elapsedTime = 0f; // Reinicia el temporizador
         SceneManager.LoadScene("SampleScene"); // Cambia a la escena "SampleScene"
     }
-
     public void QuitGame()
     {
         Application.Quit();
@@ -82,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdateTimerText()
     {
-        timerText.text = "Tiempo: " + FormatTime(elapsedTime);
+        timerText.text = "Tiempo: " + elapsedTime.ToString("F1");
     }
 
     private string FormatTime(float time)
