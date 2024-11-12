@@ -259,8 +259,8 @@ GameObject:
   m_Component:
   - component: {fileID: 220498415}
   - component: {fileID: 220498414}
-  - component: {fileID: 220498413}
   - component: {fileID: 220498416}
+  - component: {fileID: 220498417}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -268,22 +268,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &220498413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 220498412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ddb3ad250dfb324aac2a75890727fe0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 10
-  projectilePrefab: {fileID: 8939716239722773329, guid: c549c2b725389074984439e530205b5c, type: 3}
-  shootingInterval: 2
-  projectileSpeed: 10
 --- !u!212 &220498414
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -396,6 +380,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.8828125}
   m_EdgeRadius: 0
+--- !u!114 &220498417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220498412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e937f2a353692e46b965bcffa40f31c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1000
+  projectilePrefab: {fileID: 8939716239722773329, guid: c549c2b725389074984439e530205b5c, type: 3}
+  obstaclePrefab: {fileID: 5543120563086067612, guid: f5e33357a18143c438e358c580378464, type: 3}
+  conePrefab: {fileID: 4242143950430057877, guid: bfbf9b3d880715649a311517cbe1e3dd, type: 3}
+  projectileSpeed: 5
+  despawnTime: 2
+  player: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
