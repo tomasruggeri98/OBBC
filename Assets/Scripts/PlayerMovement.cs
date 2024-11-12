@@ -6,12 +6,16 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 50f; // Velocidad de movimiento
     private float angle = 0f; // Ángulo inicial
     private bool clockwise = true; // Dirección de movimiento
-    public bool invomilizacion = true;
+    public bool invomilizacion;
 
     void Update()
     {
+        MovementPlayer();
+    }
+    void MovementPlayer()
+    {
         // Cambiar dirección al presionar la tecla "A"
-        if (Input.GetKeyDown(KeyCode.A) && invomilizacion)
+        if (Input.GetKeyDown(KeyCode.A) && !invomilizacion)
         {
             clockwise = !clockwise; // Cambiar la dirección
         }
