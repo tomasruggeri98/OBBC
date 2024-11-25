@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class PowerUpVelocidad : MonoBehaviour
 {
@@ -19,7 +20,27 @@ public class PowerUpVelocidad : MonoBehaviour
     [SerializeField] private Slider barraCargador;
     private Collider2D playerCollider;
 
-    void Start()
+    // Input System
+    private PlayerInput controls;
+
+    private void Awake()
+    {
+        // Inicializar controles
+        controls = new PlayerInput();
+        controls.Player.ActivatePowerUp.performed += OnActivatePowerUp;
+    }
+
+    private void OnEnable()
+    {
+        controls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Disable();
+    }
+
+    private void Start()
     {
         // Asegúrate de que el cargador esté completo al inicio y obtener el collider
         cargador = maxCargador;
@@ -29,17 +50,11 @@ public class PowerUpVelocidad : MonoBehaviour
             barraCargador.value = cargador / maxCargador;
     }
 
-    void Update()
+    private void Update()
     {
         // Mostrar el estado del cargador en la barra de UI
         if (barraCargador != null)
             barraCargador.value = cargador / maxCargador;
-
-        // Activar el power-up cuando se presiona la tecla A y el cargador tiene energía
-        if (Input.GetKeyDown(KeyCode.A) && cargador > 0 && !enRecarga)
-        {
-            ActivarPowerUp();
-        }
 
         // Desactivar el power-up cuando el cargador se vacíe
         if (powerUpActivo && cargador <= 0)
@@ -56,6 +71,15 @@ public class PowerUpVelocidad : MonoBehaviour
         {
             cargador -= consumoPorSegundo * Time.deltaTime;
             cargador = Mathf.Clamp(cargador, 0, maxCargador);
+        }
+    }
+
+    private void OnActivatePowerUp(InputAction.CallbackContext context)
+    {
+        // Activar el power-up cuando se presiona la acción y el cargador tiene energía
+        if (cargador > 0 && !enRecarga)
+        {
+            ActivarPowerUp();
         }
     }
 

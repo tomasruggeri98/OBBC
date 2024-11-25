@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; // Para cargar escenas
 using UnityEngine.UI; // Para manejar la UI
+using UnityEngine.InputSystem; // Para el nuevo Input System
 
 public class GameManager : MonoBehaviour
 {
@@ -15,26 +16,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] float bestTime;
     [SerializeField] bool firstPlay;
 
-    private void Start()
-    {
-        Debug.Log("ffff");
-        firstPlay = true;
-        elapsedTime = 0f; // Reinicia el temporizador
-        isGameActive = true; // Activa el juego
-        //SceneManager.LoadScene("Level1"); // Cambia a la escena "SampleScene"
-    }
+    private PlayerInput controls; // Referencia al Input System
     public static GameManager Instance // Propiedad para acceder a la instancia
     {
         get
         {
             if (_instance == null)
             {
-                Debug.LogError("GameManager is null!");
+                Debug.LogError("GameManager is null! Asegúrate de que exista un GameManager en la escena.");
             }
             return _instance;
         }
     }
-
     private void Awake()
     {
         if (_instance == null)
@@ -46,6 +39,27 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject); // Destruir el objeto si ya existe una instancia
         }
+
+        // Inicializar controles
+        controls = new PlayerInput();
+        controls.Player.RestartGame.performed += OnRestartGame; // Asociar acción
+    }
+
+    private void OnEnable()
+    {
+        controls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Disable();
+    }
+
+    private void Start()
+    {
+        firstPlay = true;
+        elapsedTime = 0f; // Reinicia el temporizador
+        isGameActive = true; // Activa el juego
     }
 
     void Update()
@@ -53,24 +67,24 @@ public class GameManager : MonoBehaviour
         if (isGameActive)
         {
             elapsedTime += Time.deltaTime; // Aumenta el tiempo transcurrido
-            Debug.Log(elapsedTime);
             UpdateTimerText(); // Actualiza el texto del temporizador
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            SceneManager.LoadScene("Level1");
-            elapsedTime = 0f; // Reinicia el temporizador
-            isGameActive = true; // Activa el juego
         }
     }
 
-    
+    private void OnRestartGame(InputAction.CallbackContext context)
+    {
+        // Reiniciar la escena y el temporizador
+        SceneManager.LoadScene("Level1");
+        elapsedTime = 0f; // Reinicia el temporizador
+        isGameActive = true; // Activa el juego
+    }
+
     public void QuitGame()
     {
         Application.Quit();
 
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false; // Si estás en el editor, detener la reproducción[SerializeField]
+        UnityEditor.EditorApplication.isPlaying = false; // Si estás en el editor, detener la reproducción
 #endif
     }
 
@@ -78,8 +92,6 @@ public class GameManager : MonoBehaviour
     {
         isGameActive = false; // Detiene el contador al final del juego
         ShowResult(); // Muestra el resultado al final
-        //SceneManager.LoadScene("Menu"); // Cambia a la escena "Menu"
-       
     }
 
     public static void SetPlayerDefeated(bool defeated)
@@ -116,7 +128,6 @@ public class GameManager : MonoBehaviour
             bestTime = elapsedTime;
             firstPlay = false;
         }
-       
 
         if (playerDefeated)
         {
@@ -130,8 +141,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                resultText.text = "Victoria\nTiempo: " + elapsedTime.ToString("F1") + "\nNuevo Record: "+ bestTime.ToString("F1");
-                Debug.Log("YY");
+                resultText.text = "Victoria\nTiempo: " + elapsedTime.ToString("F1") + "\nNuevo Record: " + bestTime.ToString("F1");
             }
         }
     }

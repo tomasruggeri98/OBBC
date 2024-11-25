@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class EnemyTest : MonoBehaviour
 {
@@ -10,7 +9,7 @@ public class EnemyTest : MonoBehaviour
     [Header("Prefab de Proyectiles y Obstáculos")]
     public GameObject projectilePrefab;
     public GameObject obstaclePrefab;
-    public GameObject conePrefab; // Prefab del cono
+    public GameObject conePrefab;
 
     [Header("Ataques")]
     public List<IAttack> attacks = new List<IAttack>();
@@ -18,22 +17,26 @@ public class EnemyTest : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        attacks.Add(new ShootAtPlayerAttack
+
+        // Crear fábricas
+        IObjectFactory projectileFactory = new ProjectileFactory(projectilePrefab);
+        IObjectFactory obstacleFactory = new ObstacleFactory(obstaclePrefab);
+        IObjectFactory coneFactory = new ObstacleFactory(conePrefab); // Reutilizamos ObstacleFactory
+
+        // Agregar ataques con las fábricas
+        attacks.Add(new ShootAtPlayerAttack(projectileFactory)
         {
             shootingInterval = 2f,
-            projectileSpeed = 5f,
-            projectilePrefab = projectilePrefab
+            projectileSpeed = 5f
         });
 
-        attacks.Add(new RandomObstacleAttack
+        attacks.Add(new RandomObstacleAttack(obstacleFactory)
         {
-            obstaclePrefab = obstaclePrefab,
             obstacleSpawnInterval = 5f
         });
 
-        attacks.Add(new ConeAttack
+        attacks.Add(new ConeAttack(coneFactory)
         {
-            conePrefab = conePrefab,
             radius = 3f,
             angleRange = 45f,
             attackInterval = 5f
@@ -49,25 +52,4 @@ public class EnemyTest : MonoBehaviour
             attack.ExecuteAttack(this);
         }
     }
-
-    public void TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        if (currentHealth <= 0) Die();
-    }
-
-    void Die()
-    {
-        GameManager.SetEnemyDefeated(true);
-        GameManager.Instance.EndGame();
-        Invoke("LoadMenu", 5f);
-        Destroy(gameObject);
-    }
-
-    void LoadMenu()
-    {
-        SceneManager.LoadScene("Menu");
-    }
 }
-
-
