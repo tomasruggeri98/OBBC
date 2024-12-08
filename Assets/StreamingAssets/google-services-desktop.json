@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "195097421520",
+    "firebase_url": "https://fir-obbc-default-rtdb.firebaseio.com",
+    "project_id": "fir-obbc",
+    "storage_bucket": "fir-obbc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:195097421520:android:f4e231d025e57dd131e0d5",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.OBBC"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkiKhzUSU_bwFXdVVk-5wHPB1dowYizzA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
