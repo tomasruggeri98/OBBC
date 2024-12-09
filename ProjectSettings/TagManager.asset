@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - ProjectileEnemy
   - Projectile
+  - ObstaculeAttack
+  - ZoneAttack
   layers:
   - Default
   - TransparentFX

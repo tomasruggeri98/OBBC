@@ -84,8 +84,13 @@ public class PowerUpVelocidad : MonoBehaviour
     }
 
     // Método para activar el power-up
-    private void ActivarPowerUp()
+    public void ActivarPowerUp()
     {
+        if (playerMovement == null)
+        {
+            Debug.LogError("playerMovement no está asignado en ActivarPowerUp");
+            return;
+        }
         powerUpActivo = true;
         playerMovement.speed = velocidadAumentada; // Aumenta la velocidad en PlayerMovement
 

@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public float radius = 3f; // Radio del círculo
     public float speed = 50f; // Velocidad de movimiento
     private float angle = 0f; // Ángulo inicial
-    private bool clockwise = true; // Dirección de movimiento
+    public bool clockwise = true; // Dirección de movimiento
 
     [Header("Configuración de Restricciones")]
     public bool invomilizacion = false; // Bloquear cambio de dirección
@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         transform.position = new Vector3(x, y, 0);
     }
 
-    private void OnChangeDirection(InputAction.CallbackContext context)
+    public void OnChangeDirection(InputAction.CallbackContext context)
     {
         // Cambiar dirección si no está inmovilizado
         if (!invomilizacion)

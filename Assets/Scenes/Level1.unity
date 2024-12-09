@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 220498414}
   - component: {fileID: 220498416}
   - component: {fileID: 220498417}
+  - component: {fileID: 220498418}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -392,10 +393,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e937f2a353692e46b965bcffa40f31c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1000
+  maxHealth: 3
+  currentHealth: 0
   projectilePrefab: {fileID: 8939716239722773329, guid: c549c2b725389074984439e530205b5c, type: 3}
   obstaclePrefab: {fileID: 5543120563086067612, guid: f5e33357a18143c438e358c580378464, type: 3}
   conePrefab: {fileID: 4242143950430057877, guid: bfbf9b3d880715649a311517cbe1e3dd, type: 3}
+--- !u!50 &220498418
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220498412}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,6 +526,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 673137037}
+  - component: {fileID: 673137038}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -519,6 +549,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &673137038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673137036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01a17f272dd5e404bb40f80118c5d5ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resultText: {fileID: 1184866482}
+  timerText: {fileID: 862345799}
+  elapsedTime: 0
+  isGameActive: 0
+  bestTime: 0
+  firstPlay: 0
 --- !u!1 &859700312
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,7 +859,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
+  currentHealth: 0
   healthText: {fileID: 1474320618}
+  projectileDamage: 1
+  obstacleDamage: 1
+  zoneDamage: 1
 --- !u!50 &1023849298
 Rigidbody2D:
   serializedVersion: 4
@@ -1035,7 +1087,6 @@ GameObject:
   - component: {fileID: 1069452176}
   - component: {fileID: 1069452175}
   - component: {fileID: 1069452174}
-  - component: {fileID: 1069452178}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1130,24 +1181,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1069452178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1069452173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01a17f272dd5e404bb40f80118c5d5ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resultText: {fileID: 1184866482}
-  timerText: {fileID: 862345799}
-  elapsedTime: 0
-  isGameActive: 0
-  bestTime: 0
-  firstPlay: 0
 --- !u!1 &1184866481
 GameObject:
   m_ObjectHideFlags: 0
