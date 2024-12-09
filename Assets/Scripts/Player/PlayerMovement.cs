@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerInput controls; // Ahora usamos PlayerInput como clase
 
+
     private void Awake()
     {
         // Inicializar el sistema de entrada
@@ -33,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
         controls.Disable();
     }
 
-    private void Update()
+    public void Update()
     {
         MovementPlayer();
     }
