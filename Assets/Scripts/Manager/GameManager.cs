@@ -1,11 +1,12 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Para cargar escenas
-using UnityEngine.UI; // Para manejar la UI
-using UnityEngine.InputSystem; // Para el nuevo Input System
+using UnityEngine.SceneManagement; 
+using UnityEngine.UI;
+using UnityEngine.InputSystem; 
 
 public class GameManager : MonoBehaviour
 {
-    public Text resultText; // Asigna el componente Text en el Inspector
+    public Text resultText; 
+    public Text victoryText; // Asigna el componente Text en el Inspector
     public Text timerText; // Asigna el componente Text para mostrar el tiempo
     private static GameManager _instance; // Instancia estática
 
@@ -33,11 +34,11 @@ public class GameManager : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject); // Mantener la instancia entre escenas
+            DontDestroyOnLoad(this.gameObject); 
         }
         else
         {
-            Destroy(gameObject); // Destruir el objeto si ya existe una instancia
+            //Destroy(gameObject); 
         }
 
         // Inicializar controles
@@ -59,25 +60,28 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         firstPlay = true;
-        elapsedTime = 0f; // Reinicia el temporizador
-        isGameActive = true; // Activa el juego
+        elapsedTime = 0f;
+        isGameActive = true;
+        Debug.Log("faf");
     }
 
     void Update()
     {
         if (isGameActive)
         {
-            elapsedTime += Time.deltaTime; // Aumenta el tiempo transcurrido
-            UpdateTimerText(); // Actualiza el texto del temporizador
+            elapsedTime += Time.deltaTime;
+            UpdateTimerText(); 
         }
     }
 
     private void OnRestartGame(InputAction.CallbackContext context)
     {
-        // Reiniciar la escena y el temporizador
         SceneManager.LoadScene("Level1");
-        elapsedTime = 0f; // Reinicia el temporizador
-        isGameActive = true; // Activa el juego
+        Time.timeScale = 1f;
+        elapsedTime = 0f;
+        isGameActive = true;
+        resultText.text = "Tiempo: " + elapsedTime.ToString("F1") + "\nMejor Record: " + bestTime.ToString("F1");
+
     }
 
     public void QuitGame()
@@ -142,7 +146,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                resultText.text = "Victoria\nTiempo: " + elapsedTime.ToString("F1") + "\nNuevo Record: " + bestTime.ToString("F1");
+                resultText.text = "Victoria\nTiempo: " + elapsedTime.ToString("F1") + "\nMejor Record: " + bestTime.ToString("F1");
             }
         }
         Time.timeScale = 0f;
