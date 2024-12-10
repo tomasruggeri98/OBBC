@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1f;
         firstPlay = true;
         elapsedTime = 0f; // Reinicia el temporizador
         isGameActive = true; // Activa el juego
@@ -116,7 +117,7 @@ public class GameManager : MonoBehaviour
         return string.Format("{0:00}:{1:00}", minutes, seconds); // Formato MM:SS
     }
 
-    private void ShowResult()
+    public void ShowResult()
     {
         if (elapsedTime < bestTime && firstPlay == false)
         {
@@ -144,5 +145,6 @@ public class GameManager : MonoBehaviour
                 resultText.text = "Victoria\nTiempo: " + elapsedTime.ToString("F1") + "\nNuevo Record: " + bestTime.ToString("F1");
             }
         }
+        Time.timeScale = 0f;
     }
 }

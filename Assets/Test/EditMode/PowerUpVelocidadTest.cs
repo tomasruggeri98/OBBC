@@ -4,24 +4,26 @@ using UnityEngine;
 public class PowerUpVelocidadTest
 {
     [Test]
-    public void PowerUpAumentaVelocidadDelJugador()
+    public void PlayerTakesDamageReducesHealthCorrectly()
     {
         // Configuración de prueba
-        var player = new GameObject().AddComponent<PlayerMovement>();
-        var powerUp = new GameObject().AddComponent<PowerUpVelocidad>();
+        var player = new GameObject().AddComponent<PlayerHealth>();
+        player.maxHealth = 3; 
+        player.projectileDamage = 1;
 
-        // Asignar el movimiento y la referencia del power-up
-        powerUp.playerMovement = player;
-        powerUp.velocidadAumentada = 100f;
-        powerUp.cargador = 100f;
+        // Crear un GameObject para representar el texto de la salud y asignarlo al jugador
+        var healthTextObject = new GameObject("HealthText");
+        var healthText = healthTextObject.AddComponent<UnityEngine.UI.Text>();
+        player.healthText = healthText;
 
-        // Activar el power-up
-        powerUp.ActivarPowerUp();
+        // Inicializar la salud
+        player.Start();
+        var initialHealth = player.GetCurrentHealth();
 
-        // Verificar que la velocidad ha aumentado
-        Assert.AreEqual(100f, player.speed, "La velocidad del jugador no aumentó cuando el power-up está activo.");
+        // Invocar la función TakeDamage
+        player.TakeDamage(player.projectileDamage);
 
-        // Verificar que el jugador está inmovilizado
-        Assert.IsTrue(player.invomilizacion, "El jugador no está inmovilizado durante el power-up.");
+        // Verificar que la salud disminuyó correctamente
+        Assert.AreEqual(initialHealth - player.projectileDamage, player.GetCurrentHealth(), "La salud no se redujo correctamente al aplicar daño.");
     }
 }

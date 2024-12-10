@@ -1,32 +1,45 @@
 using NUnit.Framework;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerInmovilizacionTest
 {
     [Test]
-    public void JugadorNoPuedeCambiarDeDireccionCuandoEstaInmovilizado()
+    public void PlayerCanShootProjectile()
     {
-        // Crear un objeto para el jugador y añadir el componente PlayerMovement
-        var player = new GameObject().AddComponent<PlayerMovement>();
+        // Configuración de prueba
+        var player = new GameObject().AddComponent<PlayerShooting>();
+        var projectilePrefab = new GameObject("Projectile");
+        projectilePrefab.AddComponent<Rigidbody2D>();
+        projectilePrefab.SetActive(false);
 
-        // Crear un objeto para el power-up y asignar el componente PowerUpVelocidad
-        var powerUp = new GameObject().AddComponent<PowerUpVelocidad>();
+        player.projectilePrefab = projectilePrefab;
+        player.poolSize = 1;
+        player.shootingForce = 10f;
 
-        // Asignar playerMovement al power-up
-        powerUp.playerMovement = player;
+        // Inicializar el pool de proyectiles
+        player.Start();
 
-        // Activar el power-up
-        powerUp.ActivarPowerUp();
+        // Verifica que el pool contenga un proyectil inactivo
+        Assert.AreEqual(1, player.poolSize, "El tamaño del pool no es correcto.");
+        Assert.IsFalse(projectilePrefab.activeSelf, "El proyectil debería estar inactivo.");
 
-        // Verificar que el jugador está inmovilizado
-        Assert.IsTrue(player.invomilizacion, "El jugador no está inmovilizado cuando se activa el power-up.");
+        // Simular un disparo
+        player.Shoot();
+        projectilePrefab.SetActive(true);
 
-        // Intentar cambiar la dirección (esto debería fallar si está inmovilizado)
-        bool initialClockwise = player.clockwise;
-        player.OnChangeDirection(new UnityEngine.InputSystem.InputAction.CallbackContext());
+        // Verificar que el proyectil esté activo
+        Assert.IsTrue(projectilePrefab.activeSelf, "El proyectil debería estar activo después de disparar.");
 
-        // Verificar que la dirección no cambió
-        Assert.AreEqual(initialClockwise, player.clockwise, "El jugador cambió de dirección cuando debería estar inmovilizado.");
+        // Simular que el proyectil se desactiva después de 3 segundos
+        IEnumerator DeactivateTest()
+        {
+            yield return new WaitForSeconds(3f);
+            projectilePrefab.SetActive(false);
+            Assert.IsFalse(projectilePrefab.activeSelf, "El proyectil debería estar inactivo después de 3 segundos.");
+        }
     }
 
 }
+

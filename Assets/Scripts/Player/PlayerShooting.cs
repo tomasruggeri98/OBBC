@@ -11,7 +11,7 @@ public class PlayerShooting : MonoBehaviour
 
     private Queue<GameObject> projectilePool; // Cola de proyectiles
 
-    private void Start()
+    public void Start()
     {
         // Crear el pool de proyectiles
         InitializeProjectilePool();
@@ -41,7 +41,7 @@ public class PlayerShooting : MonoBehaviour
         }
     }
 
-    void Shoot()
+    public void Shoot()
     {
         if (projectilePool.Count > 0)
         {
